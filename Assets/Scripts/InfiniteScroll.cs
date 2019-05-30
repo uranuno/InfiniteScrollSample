@@ -11,6 +11,8 @@ public class InfiniteScroll : MonoBehaviour
 {
 	public int instantateItemCount;
 
+	public float offset;
+
 	[SerializeField]
 	private RectTransform m_OriginalItem;
 
@@ -74,7 +76,7 @@ public class InfiniteScroll : MonoBehaviour
 		var anchoredPosition = m_Content.anchoredPosition.x;
 
 		// 正の方向にスクロールした時、スクロール量が1アイテムを超えた分だけ後ろに補填する
-		while (anchoredPosition + m_FilledSize < -itemSize)
+		while (anchoredPosition + m_FilledSize < -itemSize - offset)
 		{
 			m_FilledSize += itemSize;
 
@@ -91,7 +93,7 @@ public class InfiniteScroll : MonoBehaviour
 		}
 
 		// 負の方向にスクロールした時、補填分が余るようになったら補填分を先頭に戻す
-		while (anchoredPosition + m_FilledSize > 0)
+		while (anchoredPosition + m_FilledSize > -offset)
 		{
 			m_FilledSize -= itemSize;
 
