@@ -26,16 +26,11 @@ public class InfiniteScrollItemSample : MonoBehaviour, IInfiniteScrollItem
 
 	public void UpdateTexture (string textureName)
 	{
-		// 更新なし
-		if (m_TextureName == textureName)
-			return;
+		m_TextureName = textureName;
 
 		// 前回の更新作業を止める
 		if (m_Updating != null)
 			StopCoroutine (m_Updating);
-
-		// 更新開始
-		m_TextureName = textureName;
 
 		m_Updating = UpdateTextureInternal ();
 		StartCoroutine (m_Updating);
