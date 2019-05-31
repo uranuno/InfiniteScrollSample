@@ -212,9 +212,12 @@ public class ScrollPageControl : MonoBehaviour, IBeginDragHandler, IDragHandler,
 		if (m_NextButton != null)
 			m_NextButton.gameObject.SetActive (!limited || targetIndex < length - 1);
 
-		var loopTargetIndex = GetLoopIndex (targetIndex, m_Toggles.Length);
-		for (var i = 0; i < m_Toggles.Length; i++)
-			m_Toggles[i].isOn = i == loopTargetIndex;
+		if (m_Toggles.Length > 0)
+		{
+			var loopTargetIndex = GetLoopIndex (targetIndex, m_Toggles.Length);
+			for (var i = 0; i < m_Toggles.Length; i++)
+				m_Toggles[i].isOn = i == loopTargetIndex;
+		}
 
 		for (var i = 0; i < m_PageItems.Length; i++)
 		{
