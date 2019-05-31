@@ -8,7 +8,7 @@ public class InfiniteScrollSample : MonoBehaviour
 	private InfiniteScroll m_InfiniteScroll;
 
 	[SerializeField]
-	private ScrollContentSnap m_ScrollRectSnap;
+	private ScrollPageControl m_ScrollPageControl;
 
 	// Use this for initialization
 	private void Start ()
@@ -18,31 +18,17 @@ public class InfiniteScrollSample : MonoBehaviour
 		var items = m_InfiniteScroll.GetComponentsInChildren<InfiniteScrollItemSample> ();
 		for (var i = 0; i < items.Length; i++)
 		{
-			items[i].OnUpdateItem.AddListener (OnUpdateItem);
-			items[i].UpdateItem ();
+			items[i].OnUpdate.AddListener (OnUpdateItem);
+			items[i].OnUpdateItem ();
 		}
 
 		m_InfiniteScroll.enabled = true;
-		m_ScrollRectSnap.enabled = true;
+		m_ScrollPageControl.enabled = true;
 	}
 
 	protected virtual void OnUpdateItem (InfiniteScrollItemSample item)
 	{
-		var index = GetLoopIndex (item.index, textureNames.Length);
+		var index = ScrollPageControl.GetLoopIndex (item.index, textureNames.Length);
 		item.UpdateTexture (textureNames[index]);
-	}
-
-	private static int GetLoopIndex (int index, int max)
-	{
-		if (max == 0)
-		{
-			Debug.LogError ("ゼロで割れません！！");
-			return -1;
-		}
-
-		var loopIndex = index % max;
-		if (loopIndex < 0)
-			loopIndex += max;
-		return loopIndex;
 	}
 }

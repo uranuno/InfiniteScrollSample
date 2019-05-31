@@ -13,15 +13,15 @@ public class InfiniteScrollItemSample : MonoBehaviour, IInfiniteScrollItem
 	[System.Serializable]
 	public class UpdateItemEvent : UnityEvent<InfiniteScrollItemSample> { }
 
-	public UpdateItemEvent OnUpdateItem = new UpdateItemEvent ();
+	public UpdateItemEvent OnUpdate = new UpdateItemEvent ();
 
 	private string m_TextureName;
 
-	private IEnumerator m_Updating;
+	private IEnumerator m_TextureUpdating;
 
-	public void UpdateItem ()
+	public void OnUpdateItem ()
 	{
-		OnUpdateItem.Invoke (this);
+		OnUpdate.Invoke (this);
 	}
 
 	public void UpdateTexture (string textureName)
@@ -29,11 +29,11 @@ public class InfiniteScrollItemSample : MonoBehaviour, IInfiniteScrollItem
 		m_TextureName = textureName;
 
 		// 前回の更新作業を止める
-		if (m_Updating != null)
-			StopCoroutine (m_Updating);
+		if (m_TextureUpdating != null)
+			StopCoroutine (m_TextureUpdating);
 
-		m_Updating = UpdateTextureInternal ();
-		StartCoroutine (m_Updating);
+		m_TextureUpdating = UpdateTextureInternal ();
+		StartCoroutine (m_TextureUpdating);
 	}
 
 	private IEnumerator UpdateTextureInternal ()

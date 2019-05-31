@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IInfiniteScrollItem
 {
 	int index { get; set; }
-	void UpdateItem ();
+	void OnUpdateItem ();
 }
 
 public class InfiniteScroll : MonoBehaviour
@@ -62,7 +62,7 @@ public class InfiniteScroll : MonoBehaviour
 			if (itemComponent != null)
 			{
 				m_ItemComponents[item] = itemComponent;
-				UpdateItem (i, item);
+				OnUpdateItem (i, item);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ public class InfiniteScroll : MonoBehaviour
 			itemPos = (m_CurrentItemIndex + instantateItemCount) * itemSize;
 			itemUpdated.anchoredPosition = new Vector2 (itemPos, 0);
 
-			UpdateItem (m_CurrentItemIndex + instantateItemCount, itemUpdated);
+			OnUpdateItem (m_CurrentItemIndex + instantateItemCount, itemUpdated);
 
 			m_CurrentItemIndex++;
 		}
@@ -106,17 +106,17 @@ public class InfiniteScroll : MonoBehaviour
 			itemPos = m_CurrentItemIndex * itemSize;
 			itemUpdated.anchoredPosition = new Vector2 (itemPos, 0);
 
-			UpdateItem (m_CurrentItemIndex, itemUpdated);
+			OnUpdateItem (m_CurrentItemIndex, itemUpdated);
 		}
 	}
 
-	private void UpdateItem (int index, RectTransform item)
+	private void OnUpdateItem (int index, RectTransform item)
 	{
 		IInfiniteScrollItem itemComponent;
 		if (m_ItemComponents.TryGetValue (item, out itemComponent))
 		{
 			itemComponent.index = index;
-			itemComponent.UpdateItem ();
+			itemComponent.OnUpdateItem ();
 		}
 	}
 }
