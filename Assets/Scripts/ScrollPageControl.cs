@@ -97,16 +97,8 @@ public class ScrollPageControl : MonoBehaviour, IBeginDragHandler, IDragHandler,
 			});
 		}
 
-		var childCount = 0;
-		foreach (Transform child in m_Content)
-		{
-			if (child.gameObject.activeSelf)
-				childCount++;
-		}
 		m_PageItems = m_Content.GetComponentsInChildren<IScrollPageItem> (true);
-
 		m_ScrollRect = GetComponent<ScrollRect> ();
-		m_ScrollRect.enabled = childCount > 1;
 
 		SetTargetIndex (0);
 	}
