@@ -105,17 +105,20 @@ public class ScrollPageControl : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
 	public void OnBeginDrag (PointerEventData eventData)
 	{
-		m_IsDragging = true;
-		m_BeginDragPos = eventData.position;
-		m_BeginDragIndex = GetCurrentIndex ();
+		// スクロールが有効のときのみドラッグ操作を受け付ける
+		if (m_ScrollRect.enabled)
+		{
+			m_IsDragging = true;
+			m_BeginDragPos = eventData.position;
+			m_BeginDragIndex = GetCurrentIndex ();
+		}
 	}
 
 	public void OnDrag (PointerEventData eventData) { }
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		// スクロールが有効のときのみドラッグ操作を受け付ける
-		if (m_ScrollRect.enabled)
+		if (m_IsDragging)
 		{
 			var diff = eventData.position - m_BeginDragPos;
 
@@ -125,9 +128,9 @@ public class ScrollPageControl : MonoBehaviour, IBeginDragHandler, IDragHandler,
 				direction = (int)Mathf.Sign (-diff.x);
 
 			ScrollToTargetIndex (m_BeginDragIndex + direction);
-		}
 
-		m_IsDragging = false;
+			m_IsDragging = false;
+		}
 	}
 
 	public void ScrollToTargetIndex (int index)
